@@ -7,9 +7,15 @@ window.addEventListener('DOMContentLoaded', () => {
   let loopStarted = false;
   let updates = 0;
   let lastImageAdUpdate = 0;
+
+  function setup() {
+    logo.innerHTML = 'YTWrapper: Running';
+    NavBar.setup();
+  }
+
+
   let loop = function(_inLoop = false) {
     if (loopStarted && !_inLoop) return;
-    if (!loopStarted) logo.innerHTML = 'YTWrapper: Running';
     loopStarted = true;
     setTimeout(function () {
       loop(true);
@@ -28,7 +34,14 @@ window.addEventListener('DOMContentLoaded', () => {
     skipVideoAd();
   }
 
-  document.body.onload = loop;
+  document.body.onload = function () {
+    setup();
+    loop();
+  }
+
+
+
+
 
 
 
@@ -37,18 +50,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   const adIndicators = [
-    'ad-text:4',
-    'ad-text:f',
-    'ad-preview:2',
-    'preskip-component:g',
-    'skip-button:x',
-    'preskip-component:y'
+    '#ad-text:4',
+    '#ad-text:f',
+    '#ad-text:k',
+    '#ad-preview:2',
+    '#preskip-component:g',
+    '#skip-button:x',
+    '#skip-button:i',
+    '#preskip-component:y',
+    '#preskip-component:j',
+    '.ytp-ad-player-overlay-skip-or-preview'
   ];
   
   function isVideoAdPlaying() {
-    for (let id of adIndicators) 
+    for (let pattern of adIndicators) 
     {
-      if (document.getElementById(id)) return true;
+      if (pattern.substr(0, 1) == '#')
+      {
+        if (document.getElementById(pattern.substr(1, 10000))) return true;
+        continue;
+      } 
+      if (document.querySelectorAll(pattern).length) return true;
     }
     return false;
   }
@@ -62,9 +84,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   function removeImageAds() {
-    let ads = document.getElementsByClassName('ytd-display-ad-renderer');
+    let ads = [];
+    let items = document.getElementsByClassName('ytd-display-ad-renderer');
+    if (items.length) ads = ads.concat(items);
+    let bannerAd = document.getElementById('action-companion-click-target');
+    if (bannerAd) ads.push(bannerAd);
     for (let i = ads.length - 1; i >= 0; i--) ads[i].parentNode.removeChild(ads[i]);
+
+    let xMarks = document.getElementsByClassName('ytp-ad-overlay-close-container');
+    for (let xMark of xMarks) xMark.click();
   }
+
 
 
   function insertVideoLinkInterseptors() {
@@ -90,4 +120,48 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-})
+});
+
+
+
+
+const NavBar = new function() {
+  let HTML = {};
+
+  this.setup = function() {
+    HTML.navBar = createHTML();
+    HTML.YTHeader = document.getElementById('masthead-container');
+    HTML.YTNavSmall = document.getElementById('content').children[2];
+    HTML.YTNavWide = document.getElementById('contentContainer');
+    HTML.YTHeader.style.marginTop = HTML.YTNavWide.style.marginTop = HTML.YTNavSmall.style.marginTop = '50px';
+
+  }
+
+
+
+
+  function createHTML() {
+    let bar = document.createElement('div');
+    bar.setAttribute('id', 'navBar');
+    bar.style.position = 'fixed';
+    bar.style.zIndex = 10000;
+    bar.style.left = '0';
+    bar.style.top = '0';
+    bar.style.width = 'calc(100vw - 20px)';
+    bar.style.height = '30px';
+    bar.style.padding = '10px';
+    bar.style.background = '#f00';
+
+
+    document.body.append(bar);
+    return bar;
+  }
+}
+
+
+
+
+
+
+
+

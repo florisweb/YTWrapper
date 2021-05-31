@@ -8,6 +8,7 @@ function createWindow () {
     width: 1600,
     height: 1200,
     frame: false,
+    icon: path.join(__dirname, 'images/iconTemplate.png'),
     webPreferences: {
       preload: path.join(__dirname, 'js/preload.js')
     }
@@ -16,7 +17,6 @@ function createWindow () {
   // and load the index.html of the app.
   // mainWindow.loadFile('index.html')
   mainWindow.loadURL('https://youtube.com');
-
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . YTWrapper --platform=darwin --arch=x64 --app-version=1.0.0 --overwrite"
+    "build": "electron-packager . YTWrapper --platform=darwin --arch=x64 --app-version=1.0.0 --overwrite --icon=images/iconTemplate.icns"
   },
   "author": "floris@florisweb.tk",
   "license": "CC0-1.0",
