@@ -1,0 +1,22 @@
+
+
+#navBar {
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: calc(100vw - 10px * 2);
+  height: 30px;
+  padding: 10px;
+  background: #f00;
+  transition: all .2s;
+}
+
+body.no-scroll #navBar:not(.showInFullScreen) {
+  top: -50px;
+}
+
+
+#masthead-container, #primary, #contentContainer, #secondary {
+  margin-top: 50px;
+}

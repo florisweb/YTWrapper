@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let lastImageAdUpdate = 0;
 
   function setup() {
+    addCSS('https://florisweb.tk/YTWrapper/main.css?a=' + Math.round(Math.random() * 100000));
     logo.innerHTML = 'YTWrapper: Running';
     NavBar.setup();
   }
@@ -130,11 +131,12 @@ const NavBar = new function() {
 
   this.setup = function() {
     HTML.navBar = createHTML();
-    HTML.YTHeader = document.getElementById('masthead-container');
-    HTML.YTNavSmall = document.getElementById('content').children[2];
-    HTML.YTNavWide = document.getElementById('contentContainer');
-    HTML.YTHeader.style.marginTop = HTML.YTNavWide.style.marginTop = HTML.YTNavSmall.style.marginTop = '50px';
-
+    HTML.ytdApp = document.getElementsByTagName('ytd-app')[0];
+    HTML.ytdApp.addEventListener('scroll', function() {
+      HTML.navBar.classList.remove('showInFullScreen');
+      if (HTML.ytdApp.scrollTop <= 0) return;
+      HTML.navBar.classList.add('showInFullScreen');
+    });
   }
 
 
@@ -143,16 +145,6 @@ const NavBar = new function() {
   function createHTML() {
     let bar = document.createElement('div');
     bar.setAttribute('id', 'navBar');
-    bar.style.position = 'fixed';
-    bar.style.zIndex = 10000;
-    bar.style.left = '0';
-    bar.style.top = '0';
-    bar.style.width = 'calc(100vw - 20px)';
-    bar.style.height = '30px';
-    bar.style.padding = '10px';
-    bar.style.background = '#f00';
-
-
     document.body.append(bar);
     return bar;
   }
@@ -161,7 +153,15 @@ const NavBar = new function() {
 
 
 
+function addCSS(filename){
+  var head = document.getElementsByTagName('head')[0];
 
+  var style = document.createElement('link');
+  style.href = filename;
+  style.type = 'text/css';
+  style.rel = 'stylesheet';
+  head.append(style);
+}
 
 
 
