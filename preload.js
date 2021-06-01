@@ -1,16 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
-  let logo = document.getElementById('logo-icon');
-  logo.innerHTML = 'YTWrapper: Loaded';
-
-  function setup() {
+  document.body.onload = function () {
     addCSS('https://florisweb.tk/YTWrapper/main.css?a=' + Math.round(Math.random() * 100000));
     addJS('https://florisweb.tk/YTWrapper/main.js?a=' + Math.round(Math.random() * 100000));
-    logo.innerHTML = 'YTWrapper: Running';
-  }
-
-
-  document.body.onload = function () {
-    setup();
   }
 });
 

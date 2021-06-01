@@ -1,12 +1,15 @@
 
-console.warn('Main.js: loaded');
 
 const YTWrapper = new function() {
 	this.adBlock = new YTWrapper_AdBlock();
 	this.navBar = new YTWrapper_NavBar();
+	this.videoManager = new YTWrapper_VideoManager();
 
 
 	this.setup = function() {
+		let logo = document.getElementById('logo-icon');
+		logo.innerHTML = 'YTWrapper: Running';
+
 		console.warn('YTWrapper.setup()');
 		this.navBar.setup();
 		this.update();
@@ -19,7 +22,7 @@ const YTWrapper = new function() {
 	    if (updates > lastSlowUpdate + 10)
 	    {
 	      lastSlowUpdate = updates;
-	      insertVideoLinkInterseptors();
+	      this.videoManager.update();
 	    }
 
 		this.adBlock.update();
@@ -27,37 +30,6 @@ const YTWrapper = new function() {
 		setTimeout(function() {
 			YTWrapper.update()
 		}, 100);
-	}
-
-
-
-
-
-
-
-
-	function insertVideoLinkInterseptors() {
-		let elements = document.getElementsByClassName('style-scope ytd-watch-next-secondary-results-renderer');
-		for (let element of elements)
-		{
-			if (element.interseptorInserted || element.tagName != 'YTD-COMPACT-VIDEO-RENDERER') continue;
-
-			console.log('add interseptor', element.tagName);
-			element.interseptorInserted = true;
-
-			let linkWrapper = element.children[0];
-			let thumbnail = linkWrapper.children[0].children[0];
-			let info = linkWrapper.children[1].children[0].children[0];
-
-			let link = thumbnail.href;
-			thumbnail.style.pointerEvents = 'none';
-			info.style.pointerEvents = 'none';
-
-			linkWrapper.onclick = function() {
-				alert('open link: ' + link);
-				window.location.replace(link);
-			}
-		}
 	}
 
 }
