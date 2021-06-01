@@ -86,11 +86,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function removeImageAds() {
     let ads = [];
-    let items = document.getElementsByClassName('ytd-display-ad-renderer');
-    if (items.length) ads = ads.concat(items);
+    let items1 = document.getElementsByClassName('ytd-display-ad-renderer');
+    if (items1.length) ads = [...ads, ...items1];
+
+    let items2 = document.getElementsByClassName('GoogleActiveViewElement')
+    if (items2.length) ads = [...ads, ...items2];
+
     let bannerAd = document.getElementById('action-companion-click-target');
     if (bannerAd) ads.push(bannerAd);
     for (let i = ads.length - 1; i >= 0; i--) ads[i].parentNode.removeChild(ads[i]);
+
 
     let xMarks = document.getElementsByClassName('ytp-ad-overlay-close-container');
     for (let xMark of xMarks) xMark.click();
