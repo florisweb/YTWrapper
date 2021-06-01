@@ -1,3 +1,4 @@
 node_modules
 YTWrapper-darwin-x64
 **/.DS_Store
+remoteCode/dist/*

@@ -1,0 +1,12 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+echo - Building JavaScript
+
+cat js/adBlock.js js/navBar.js js/app.js > dist/main.js
+
+echo - Building CSS
+cat css/main.css > dist/main.css
+
+echo \|-------------------\|
+echo \| Finished Building \|
+echo \|-------------------\|

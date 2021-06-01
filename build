@@ -1,0 +1,7 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+echo === Building RemoteCode ===
+remoteCode/build
+
+echo === Building App ===
+npm run build
