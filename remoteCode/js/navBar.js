@@ -47,6 +47,7 @@ function YTWrapper_NavBar() {
 
 
     function Tab(_video) {
+      let This = this;
       this.video = _video;
       this.HTML = createHTML(_video);
 
@@ -58,6 +59,10 @@ function YTWrapper_NavBar() {
         setTextToElement(tab.children[0], _video.title);
 
         HTML.tabHolder.append(tab);
+
+        tab.onclick = function() {
+          window.location.replace(This.video.url);
+        }
 
         return tab;
       }

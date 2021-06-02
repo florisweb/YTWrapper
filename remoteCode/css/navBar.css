@@ -32,21 +32,23 @@ body.no-scroll #navBar:not(.showInFullScreen) {
 #navBar .tabHolder .tab {
   position: relative;
   float:  left;
-  padding: 5px 0px;
+  padding: 5px 5px;
   margin-left: 4px;
-  height: 20px;
+  height: 25px;
   width: auto;
-
-  border-radius: 3px;
   overflow: hidden;
-
-  background:  #333;
 }
 
+#navBar .tabHolder .tab:not(:first-child) {
+  border-left: 1px solid #888;
+}
+
+
+
 #navBar .tabHolder .tab .text.titleHolder {
-  color:  #eee;
+  color:  #ccc;
   font-size: 11px;
-  line-height: 20px;
+  line-height: 25px;
   white-space: nowrap;
   text-align: center;
 
