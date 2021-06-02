@@ -20,7 +20,6 @@ function YTWrapper_AdBlock() {
 
 
 	const adIndicators = [
-		'#ad-text:4',
 		'#ad-text:f',
 		'#ad-text:k',
 		'#ad-preview:2',
@@ -31,6 +30,9 @@ function YTWrapper_AdBlock() {
 		'#preskip-component:j',
 		'.ytp-ad-player-overlay-skip-or-preview'
 	];
+	for (let i = 0; i < 10; i++) adIndicators.push('#skip-button:' + i);
+	for (let i = 0; i < 10; i++) adIndicators.push('#preskip-component:' + i);
+	for (let i = 0; i < 10; i++) adIndicators.push('#ad-text:' + i);
 
 	function isVideoAdPlaying() {
 		for (let pattern of adIndicators) 
@@ -45,7 +47,7 @@ function YTWrapper_AdBlock() {
 		return false;
 	}
 
-	function skipVideoAd() {
+	async function skipVideoAd() {
 		let videos = document.getElementsByTagName('video');
 		if (!videos[0]) return;
 
@@ -55,6 +57,9 @@ function YTWrapper_AdBlock() {
 
 	function removeImageAds() {
 		let ads = [];
+		let items0 = document.getElementsByTagName('ytd-display-ad-renderer');
+		for (let item of items0) ads.push(item.parentNode.parentNode);
+
 		let items1 = document.getElementsByClassName('ytd-display-ad-renderer');
 		if (items1.length) ads = [...ads, ...items1];
 

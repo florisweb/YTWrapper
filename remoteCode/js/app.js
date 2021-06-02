@@ -25,7 +25,7 @@ const YTWrapper = new function() {
 	      this.videoManager.update();
 	    }
 
-		this.adBlock.update();
+		// this.adBlock.update();
 
 		setTimeout(function() {
 			YTWrapper.update()

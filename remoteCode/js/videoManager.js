@@ -13,6 +13,7 @@ function YTWrapper_VideoManager() {
 			element.interseptorInserted = true;
 
 			let thumbnail = element.children[0].children[0];
+			if (element.children[1].children.length < 2) continue;
 			let info = element.children[1].children[1];
 			let rawTitle = info.children[0].children[1].children[0].innerHTML;
 			let rawChannelTitle = info.children[1].children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].innerHTML;
@@ -27,11 +28,10 @@ function YTWrapper_VideoManager() {
 				title: cleanString(rawTitle),
 				channel: cleanString(rawChannelTitle)
 			});
-			console.log(video);
+			if (Math.random() > .9) YTWrapper.navBar.tabHolder.addTab(video);
 
-			element.onclick = function() {
-				alert(JSON.stringify(video));
-				window.location.replace(video.url);
+			element.onclick = async function() {
+				if (await confirm(video.title)) window.location.replace(video.url);
 			}
 		}
 	}
@@ -62,10 +62,10 @@ function YTWrapper_VideoManager() {
 				title: cleanString(rawTitle),
 				channel: cleanString(rawChannelTitle)
 			});
+			YTWrapper.navBar.tabHolder.addTab(video);
 
-			linkWrapper.onclick = function() {
-				alert(JSON.stringify(video));
-				window.location.replace(video.url);
+			linkWrapper.onclick = async function() {
+				if (await confirm(video.title)) window.location.replace(video.url);
 			}
 		}
 	}

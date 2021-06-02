@@ -1,22 +1,107 @@
 
 
-#navBar {
-  position: fixed;
-  z-index: 10000;
-  left: 0;
-  top: 0;
-  width: calc(100vw - 10px * 2);
-  height: 30px;
-  padding: 10px;
-  background: #f00;
-  transition: all .2s;
-}
-
-body.no-scroll #navBar:not(.showInFullScreen) {
-  top: -50px;
-}
-
-
 #masthead-container, #primary, #contentContainer, #secondary {
   margin-top: 50px;
+}
+
+
+
+/*=== Hide Items ====*/
+.style-scope.ytd-masthead yt-icon-button:not(.ytd-notification-topbar-button-renderer):first-child{
+  display: none;
+}
+
+
+#action-companion-click-target {
+  opacity: .1;
+}
+
+.ytp-ad-module {
+  opacity: .1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.button {
+  position: relative;
+  width: auto;
+  padding: 7px 15px !important;
+
+  border-radius: 30px;
+  font-size: 13px;
+
+  overflow: hidden;
+  cursor: pointer;
+}
+  .button.bBoxy {
+    border-radius: 4px; 
+  }
+
+  .button.bDefault {
+    background: rgb(140, 153, 247);
+    color: #fff !important;
+  }
+
+  .button img {
+    position: relative;
+    top: 3px;
+    margin-left: -5px;
+    margin-right: 3px;
+
+    width: 16px;
+    height: auto;
+  }
+
+
+
+
+
+.inputField {
+  position: relative;
+  left: 0;
+  padding: 7px 3px;
+  height: 32px;
+  border-radius: 3px;
+  background: transparent;
+
+  border: none;
+  outline: none;
+
+  color: #888;
+}
+
+
+
+
+
+
+.text {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  color: #555;
+  font-size: 15px;
 }

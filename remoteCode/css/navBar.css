@@ -1,0 +1,58 @@
+
+
+#navBar {
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: calc(100vw);
+  height: 40px;
+  background: #222;
+
+  transition: all .2s;
+}
+
+body.no-scroll #navBar:not(.showInFullScreen) {
+  top: -50px;
+}
+
+
+#navBar .tabHolder {
+  position: relative;
+  border: 1px solid red;
+  padding-left: 10px;
+  
+  width:  calc(100% - 10px);
+  height: 40px;
+
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+#navBar .tabHolder .tab {
+  position: relative;
+  float:  left;
+  padding: 5px 0px;
+  margin-left: 4px;
+  height: 20px;
+  width: auto;
+
+  border-radius: 3px;
+  overflow: hidden;
+
+  background:  #333;
+}
+
+#navBar .tabHolder .tab .text.titleHolder {
+  color:  #eee;
+  font-size: 11px;
+  line-height: 20px;
+  white-space: nowrap;
+  text-align: center;
+
+  transition: all .3s;
+}
+
+#navBar .tabHolder .tab:hover .text.titleHolder {
+  color:  #fff;
+}
