@@ -1,5 +1,7 @@
 
 
+
+
 #navBar {
   position: fixed;
   z-index: 10000;
@@ -7,7 +9,6 @@
   top: 0;
   width: calc(100vw);
   height: 40px;
-  background: #222;
 
   transition: all .2s;
 }
@@ -19,7 +20,6 @@ body.no-scroll #navBar:not(.showInFullScreen) {
 
 #navBar .tabHolder {
   position: relative;
-  border: 1px solid red;
   padding-left: 10px;
   
   width:  calc(100% - 10px);
@@ -27,33 +27,88 @@ body.no-scroll #navBar:not(.showInFullScreen) {
 
   display: flex;
   flex-wrap: nowrap;
+  /*overflow-x: auto;*/
 }
 
 #navBar .tabHolder .tab {
   position: relative;
   float:  left;
-  padding: 5px 5px;
-  margin-left: 4px;
+  top:  3px;
+
+  padding: 3px 5px;
   height: 25px;
-  width: auto;
+  margin-left: 4px;
+
+  width:  auto;
+  max-width: 200px;
   overflow: hidden;
+
+  background:  rgba(50, 50, 50, .7);
+  border-radius: 5px;
+  transition: all .3s;
 }
 
-#navBar .tabHolder .tab:not(:first-child) {
-  border-left: 1px solid #888;
+#navBar .tabHolder .tab:hover {
+  padding-left: 29px;
+}
+#navBar .tabHolder .tab.remove {
+  opacity: 0;
+  max-width: 0;
+  margin-left:  -5px;
+  padding-left: 3px !important;
 }
 
+
+
+#navBar .tabHolder .tab .text.closeButton {
+  position: absolute;
+  left: -25px;
+  float:  left;
+  
+  width:  10px;
+  height: 10px;
+  padding: 5px;
+  
+  margin:  3px;
+  /*margin-right: -15px;*/
+
+
+  background:  rgba(70, 70, 70, .7);
+  opacity: .8;
+
+  
+  text-align: center;
+  color:  #eee;
+  line-height: 10px;
+  font-size: 14px;
+  transition: all .3s;
+}
+
+#navBar .tabHolder .tab:hover .text.closeButton {
+  left:  0;
+}
+
+#navBar .tabHolder .tab:hover .text.closeButton {
+  opacity: 1;
+}
 
 
 #navBar .tabHolder .tab .text.titleHolder {
+  width: auto;
+  min-width: 50px;
+  max-width: 200px;
+
   color:  #ccc;
   font-size: 11px;
   line-height: 25px;
   white-space: nowrap;
   text-align: center;
 
+  overflow: hidden;
+
   transition: all .3s;
 }
+
 
 #navBar .tabHolder .tab:hover .text.titleHolder {
   color:  #fff;

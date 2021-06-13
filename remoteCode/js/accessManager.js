@@ -106,7 +106,7 @@ function YTWrapper_AccessManager() {
 
 	this.disableAccess = function() {
 		this.disabled = true;
-		HTML.holder.classList.remove('hide');
+		// HTML.holder.classList.remove('hide');
 		for (let element of document.getElementsByTagName('video')) element.pause();
 	}
 }

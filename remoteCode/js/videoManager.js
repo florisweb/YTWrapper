@@ -28,7 +28,7 @@ function YTWrapper_VideoManager() {
 				title: cleanString(rawTitle),
 				channel: cleanString(rawChannelTitle)
 			});
-			if (Math.random() > .5) YTWrapper.navBar.tabHolder.addTab(video);
+			window.vid = video;
 
 			element.onclick = async function() {
 				if (await confirm(video.title)) window.location.replace(video.url);
@@ -62,8 +62,7 @@ function YTWrapper_VideoManager() {
 				title: cleanString(rawTitle),
 				channel: cleanString(rawChannelTitle)
 			});
-			YTWrapper.navBar.tabHolder.addTab(video);
-
+			
 			linkWrapper.onclick = async function() {
 				if (await confirm(video.title)) window.location.replace(video.url);
 			}

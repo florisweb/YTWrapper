@@ -1,10 +1,16 @@
 
 
-#masthead-container, #primary, #contentContainer, #secondary {
-  margin-top: 50px;
+#chips-wrapper, #primary, #contentContainer, #secondary {
+  margin-top: 40px;
 }
 
 
+/*#container.style-scope.ytd-masthead {*/
+#masthead {
+  padding-top: 40px;
+  background: rgba(20, 20, 20, .5);
+  backdrop-filter: blur(50px);
+}
 
 /*=== Hide Items ====*/
 .style-scope.ytd-masthead yt-icon-button:not(.ytd-notification-topbar-button-renderer):first-child{
