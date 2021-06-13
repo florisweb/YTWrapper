@@ -7,9 +7,6 @@ const YTWrapper = new function() {
 	this.accessManager 	= new YTWrapper_AccessManager();
 
 	this.setup = function() {
-		let logo = document.getElementById('logo-icon');
-		logo.innerHTML = 'YTWrapper: Running';
-
 		console.warn('YTWrapper.setup()');
 		this.navBar.setup();
 		this.accessManager.setup();

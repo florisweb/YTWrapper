@@ -1,6 +1,7 @@
 
 function YTWrapper_AccessManager() {
 	let HTML = createHTML();
+	this.disabled = false;
 
 
 	function createHTML() {
@@ -15,36 +16,42 @@ function YTWrapper_AccessManager() {
 		document.body.append(holder);
 		return {
 			holder: holder,
-			disabledReasonHolder: holder.children[1]
+			disabledReasonHolder: holder.children[0].children[1]
 		}
 	}
 
 
-	this.allowedDomains = [ // [startMinute, stopMinute]
-		[720, 780]
-	];
+	this.allowedTimeDomains = [[0, 1440]];// [startMinute, stopMinute]
 	this.timeHistory = {}; // '12-6-2021': [[0, 50], [100, 120]],
-
-	this.maxTotalTime = 60; // minutes
-
+	this.maxTotalTime = 1440; // minutes
 
 	this.setup = function() {
 		if (localStorage.timeHistory) this.timeHistory = JSON.parse(localStorage.timeHistory);
-		let disable = shouldBeDisabled(this.allowedDomains);
+		if (localStorage.maxTotalTime) this.maxTotalTime = parseInt(localStorage.maxTotalTime);
+		if (localStorage.allowedTimeDomains) this.allowedTimeDomains = JSON.parse(localStorage.allowedTimeDomains);
+		this.updateStatus()
+	}
+
+	this.updateStatus = function() {
+		this.enableAccess();
+		let disable = shouldBeDisabled(this.allowedTimeDomains);
 		if (disable) 
 		{
 			this.disableAccess();
 			setDisabledReason('Outside the allowed timedomains.');
-		} else if (getTotalTimeToday() > this.maxTotalTime) 
+		} else if (getTotalTimeToday() >= this.maxTotalTime) 
 		{
 			this.disableAccess();
-			setDisabledReason('Timelimit exceeded (' + getTotalTimeToday() + " > " + this.maxTotalTime + ")");
+			setDisabledReason('Timelimit exceeded (' + getTotalTimeToday() + " minutes of " + this.maxTotalTime + " minutes)");
 		}
 	}
 
 
 	
 	this.update = function() {
+		this.updateStatus();
+
+		if (this.disabled) return;
 		let curTime = new Date().getTimeInMinutes();
 		let curDate = new Date().toString();
 		let curEntry = this.timeHistory[curDate];
@@ -93,10 +100,13 @@ function YTWrapper_AccessManager() {
 
 
 	this.enableAccess = function() {
+		this.disabled = false;
 		HTML.holder.classList.add('hide');
 	}
 
 	this.disableAccess = function() {
+		this.disabled = true;
 		HTML.holder.classList.remove('hide');
+		for (let element of document.getElementsByTagName('video')) element.pause();
 	}
 }
