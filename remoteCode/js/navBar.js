@@ -17,17 +17,24 @@ function YTWrapper_NavBar() {
   function createHTML() {
     let bar = document.createElement('div');
     bar.setAttribute('id', 'navBar');
-
-
-    let tabHolder = document.createElement('div');
-    tabHolder.classList.add('tabHolder');
-    bar.append(tabHolder);
+    bar.innerHTML =   "<div class='tabHolder'></div>" + 
+                      "<div class='buttonHolder'>" + 
+                        "<div class='item text timeWatchedButton'>15 m</div>" + 
+                        "<img class='item icon' src='https://florisweb.ga/YTWrapper/images/settingsIcon.png'>" + 
+                      "</div>";
 
     document.body.append(bar);
     return {
       navBar: bar,
-      tabHolder: tabHolder
+      tabHolder: bar.children[0],
+      buttonHolder: bar.children[1],
+      timeWatchedButton: bar.children[1].children[0],
     };
+  }
+
+
+  this.setTimeWatched = function(_minutes) {
+    setTextToElement(HTML.timeWatchedButton, _minutes + " min");
   }
 
 

@@ -17,12 +17,53 @@ body.no-scroll #navBar:not(.showInFullScreen) {
   top: -50px;
 }
 
+#navBar .buttonHolder {
+  position: relative;
+  float:  left;
+  width:  130px;
+  padding-right: 10px;
+  height: 40px;
+}
+
+#navBar .buttonHolder .item {
+  position: relative;
+  float:  right;
+  height: 20px;
+  margin:  5px;
+  padding: 5px 10px;
+  border-radius: 0;
+  cursor:  pointer;
+}
+
+#navBar .buttonHolder .item.icon {
+  width:  auto;
+  opacity: .6;
+  transition: all .2s;
+}
+#navBar .buttonHolder .item.icon:hover {
+  opacity: .8;
+}
+
+#navBar .buttonHolder .item.timeWatchedButton {
+  width:  auto;
+  background:  rgb(30, 170, 250);
+
+  line-height: 20px;
+  border-radius: 5px;
+  color:  #fff;
+  font-size: 12px;
+}
+
+
+
+
 
 #navBar .tabHolder {
   position: relative;
+  float:  left;
   padding-left: 10px;
   
-  width:  calc(100% - 10px);
+  width:  calc(100% - 10px - 150px);
   height: 40px;
 
   display: flex;

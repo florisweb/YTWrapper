@@ -68,7 +68,7 @@ function YTWrapper_AccessManager() {
 		if (!addedEntry) curEntry = [[curTime, curTime]];
 		this.timeHistory[curDate] = curEntry;
 		localStorage.timeHistory = JSON.stringify(this.timeHistory);
-		console.log('total', getTotalTimeToday());
+		YTWrapper.navBar.setTimeWatched(getTotalTimeToday());
 	}
 
 	function getTotalTimeToday() {

@@ -7,6 +7,8 @@ cat js/time.js js/extraFunctions.js js/adBlock.js js/accessManager.js js/videoMa
 echo - Building CSS
 cat css/main.css css/navBar.css > dist/main.css
 
+cp -r images dist/images
+
 echo \|-------------------\|
 echo \| Finished Building \|
 echo \|-------------------\|
