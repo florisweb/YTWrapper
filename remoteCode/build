@@ -2,7 +2,7 @@
 cd "$(dirname "$0")"
 echo - Building JavaScript
 
-cat js/extraFunctions.js js/adBlock.js js/videoManager.js js/navBar.js js/app.js > dist/main.js
+cat js/time.js js/extraFunctions.js js/adBlock.js js/accessManager.js js/videoManager.js js/navBar.js js/app.js > dist/main.js
 
 echo - Building CSS
 cat css/main.css css/navBar.css > dist/main.css

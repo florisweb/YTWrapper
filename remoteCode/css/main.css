@@ -31,9 +31,43 @@
 
 
 
+.accessDisableHolder {
+  position: fixed;
+  left:  0;
+  top:  0;
+  z-index: 1000000;
+  width:  100vw;
+  height: 100vh;
+
+  background: rgba(10, 10, 10, .8);
+  backdrop-filter: blur(50px);
+  transition: all .2s;
+}
+
+.accessDisableHolder.hide {
+  transform: scale(1.2);
+  opacity: 0;
+  pointer-events: none;
+}
 
 
 
+.accessDisableHolder .textHolder {
+  position: relative;
+  top:  47vh;
+  transform: translateY(-50%);
+}
+
+.accessDisableHolder .textHolder .text {
+  color:  #bbb;
+  text-align: center;
+  line-height: 30px;
+}
+
+.accessDisableHolder .textHolder .text.header {
+  font-size: 25px;
+  color:  #fff;
+}
 
 
 
