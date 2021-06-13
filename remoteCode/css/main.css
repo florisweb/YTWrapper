@@ -18,12 +18,8 @@
 }
 
 
-#action-companion-click-target {
-  opacity: .1;
-}
-
-.ytp-ad-module {
-  opacity: .1;
+#action-companion-click-target, .ytp-ad-module {
+  display: none;
 }
 
 

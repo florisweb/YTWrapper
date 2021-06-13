@@ -67,16 +67,15 @@ body.no-scroll #navBar:not(.showInFullScreen) {
   
   width:  10px;
   height: 10px;
+  
   padding: 5px;
-  
   margin:  3px;
-  /*margin-right: -15px;*/
 
+  background:  rgba(70, 70, 70, .8);
+  cursor:  pointer;
 
-  background:  rgba(70, 70, 70, .7);
-  opacity: .8;
+  border-radius: 3px;
 
-  
   text-align: center;
   color:  #eee;
   line-height: 10px;
@@ -86,10 +85,6 @@ body.no-scroll #navBar:not(.showInFullScreen) {
 
 #navBar .tabHolder .tab:hover .text.closeButton {
   left:  0;
-}
-
-#navBar .tabHolder .tab:hover .text.closeButton {
-  opacity: 1;
 }
 
 

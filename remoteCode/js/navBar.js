@@ -61,6 +61,7 @@ function YTWrapper_NavBar() {
       let tab = new Tab(_tab);
       this.tabs.push(tab);
       this.writeTabsToLocalStorage();
+      return tab;
     }
 
     this.removeTab = function(_id, _removeHTML = true) {
@@ -83,7 +84,7 @@ function YTWrapper_NavBar() {
 
     function Tab({id, video}) {
       let This = this;
-      this.id = id;
+      this.id = id ? id : newId();
       this.video = video;
       this.HTML = createHTML(video);
 
@@ -99,11 +100,14 @@ function YTWrapper_NavBar() {
 
         tab.onclick = function(_e) {
           if (_e.target == closeButton) return This.remove();
-
-          window.location.replace(This.video.url);
+          This.open();
         }
 
         return tab;
+      }
+
+      this.open = function() {
+        window.location.replace(this.video.url);
       }
 
       this.remove = function() {

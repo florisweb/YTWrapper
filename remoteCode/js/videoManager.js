@@ -31,7 +31,7 @@ function YTWrapper_VideoManager() {
 			window.vid = video;
 
 			element.onclick = async function() {
-				if (await confirm(video.title)) window.location.replace(video.url);
+				YTWrapper.navBar.tabHolder.addTab({video: video});
 			}
 		}
 	}
@@ -62,9 +62,9 @@ function YTWrapper_VideoManager() {
 				title: cleanString(rawTitle),
 				channel: cleanString(rawChannelTitle)
 			});
-			
+
 			linkWrapper.onclick = async function() {
-				if (await confirm(video.title)) window.location.replace(video.url);
+				YTWrapper.navBar.tabHolder.addTab({video: video});
 			}
 		}
 	}
