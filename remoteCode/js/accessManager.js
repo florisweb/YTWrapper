@@ -29,7 +29,8 @@ function YTWrapper_AccessManager() {
 		if (localStorage.timeHistory) this.timeHistory = JSON.parse(localStorage.timeHistory);
 		if (localStorage.maxTotalTime) this.maxTotalTime = parseInt(localStorage.maxTotalTime);
 		if (localStorage.allowedTimeDomains) this.allowedTimeDomains = JSON.parse(localStorage.allowedTimeDomains);
-		this.updateStatus()
+		this.updateStatus();
+		YTWrapper.navBar.setTimeWatched(getTotalTimeToday());
 	}
 
 	this.updateStatus = function() {
@@ -56,6 +57,7 @@ function YTWrapper_AccessManager() {
 		let curDate = new Date().toString();
 		let curEntry = this.timeHistory[curDate];
 		if (!curEntry) curEntry = []; 
+		
 		let addedEntry = false;
 		for (let i = 0; i < curEntry.length; i++)
 		{
@@ -65,7 +67,7 @@ function YTWrapper_AccessManager() {
 			break
 		}
 
-		if (!addedEntry) curEntry = [[curTime, curTime]];
+		if (!addedEntry) curEntry.push([curTime, curTime]);
 		this.timeHistory[curDate] = curEntry;
 		localStorage.timeHistory = JSON.stringify(this.timeHistory);
 		YTWrapper.navBar.setTimeWatched(getTotalTimeToday());
