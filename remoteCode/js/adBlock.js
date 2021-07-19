@@ -19,7 +19,7 @@ function YTWrapper_AdBlock() {
 	}
 
 
-	const adIndicators = [
+	const vidAdIndicators = [
 		'#ad-text:f',
 		'#ad-text:k',
 		'#ad-preview:2',
@@ -28,14 +28,15 @@ function YTWrapper_AdBlock() {
 		'#skip-button:i',
 		'#preskip-component:y',
 		'#preskip-component:j',
-		'.ytp-ad-player-overlay-skip-or-preview'
+		'.ytp-ad-player-overlay-skip-or-preview',
 	];
-	for (let i = 0; i < 10; i++) adIndicators.push('#skip-button:' + i);
-	for (let i = 0; i < 10; i++) adIndicators.push('#preskip-component:' + i);
-	for (let i = 0; i < 10; i++) adIndicators.push('#ad-text:' + i);
+
+	for (let i = 0; i < 10; i++) vidAdIndicators.push('#skip-button:' + i);
+	for (let i = 0; i < 10; i++) vidAdIndicators.push('#preskip-component:' + i);
+	for (let i = 0; i < 10; i++) vidAdIndicators.push('#ad-text:' + i);
 
 	function isVideoAdPlaying() {
-		for (let pattern of adIndicators) 
+		for (let pattern of vidAdIndicators) 
 		{
 		  if (pattern.substr(0, 1) == '#')
 		  {
@@ -55,24 +56,39 @@ function YTWrapper_AdBlock() {
 	}
 
 
+	let elementAds = [
+		'ytd-banner-promo-renderer',
+		'ytd-display-ad-renderer',
+		'.ytd-display-ad-renderer',
+		'.GoogleActiveViewElement',
+		'#action-companion-click-target',
+	];
+
+	function getAllElementsToBeRemoved() {
+		let elements = [];
+		for (let pattern of elementAds) 
+		{
+		  if (pattern.substr(0, 1) == '#')
+		  {
+		    let element = document.getElementById(pattern.substr(1, pattern.length - 1));
+		    if (!element) continue;
+		    elements.push(element);
+		    continue;
+		  } 
+		  let patternResults = document.querySelectorAll(pattern);
+		  if (!patternResults.length) continue;
+		  for (let node of patternResults) elements.push(node);
+		}
+		return elements;
+	}
+
 	function removeImageAds() {
-		let ads = [];
-		let items0 = document.getElementsByTagName('ytd-display-ad-renderer');
-		for (let item of items0) ads.push(item.parentNode.parentNode);
-
-		let items1 = document.getElementsByClassName('ytd-display-ad-renderer');
-		if (items1.length) ads = [...ads, ...items1];
-
-		let items2 = document.getElementsByClassName('GoogleActiveViewElement')
-		if (items2.length) ads = [...ads, ...items2];
-
-		let bannerAd = document.getElementById('action-companion-click-target');
-		if (bannerAd) ads.push(bannerAd);
-		for (let i = ads.length - 1; i >= 0; i--) ads[i].parentNode.removeChild(ads[i]);
-
-
-		let xMarks = document.getElementsByClassName('ytp-ad-overlay-close-container');
-		for (let xMark of xMarks) xMark.click();
+		let ads = getAllElementsToBeRemoved();
+		window.ads = ads;
+		for (let i = ads.length - 1; i >= 0; i--)
+		{
+			ads[i].parentNode.removeChild(ads[i]);
+		}
 	}
 
 }
