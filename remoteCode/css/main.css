@@ -13,7 +13,7 @@
 }
 
 /*=== Hide Items ====*/
-.style-scope.ytd-masthead yt-icon-button:not(.ytd-notification-topbar-button-renderer):first-child{
+/*.style-scope.ytd-masthead yt-icon-button:not(.ytd-notification-topbar-button-renderer):first-child{
   display: none;
 }
 
@@ -21,11 +21,14 @@
 #action-companion-click-target, .ytp-ad-module {
   display: none;
 }
+*/
 
-
-yt-related-chip-cloud-renderer {
+/* UI components we don't want */
+/*yt-related-chip-cloud-renderer, 
+.super-title.ytd-video-primary-info-renderer, 
+ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
   display: none;
-}
+}*/
 
 
 
@@ -70,24 +73,81 @@ yt-related-chip-cloud-renderer {
 }
 
 
+.accessDisableHolder .page {
+  position: absolute;
+  left:  0;
+  top:  0;
+  width:  100%;
+  height: 100%;
+  transition: all .2s;
+}
 
-.accessDisableHolder .textHolder {
+.accessDisableHolder .page.hide {
+  transform: scale(1.2);
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
+/* AccessDisabled-page */
+.accessDisableHolder .page .textHolder {
   position: relative;
   top:  47vh;
   transform: translateY(-50%);
 }
 
-.accessDisableHolder .textHolder .text {
+.accessDisableHolder .page .textHolder .text {
   color:  #bbb;
   text-align: center;
   line-height: 30px;
 }
 
-.accessDisableHolder .textHolder .text.header {
+.accessDisableHolder .page .textHolder .text.header {
   font-size: 25px;
   color:  #fff;
 }
 
+
+
+.accessDisableHolder .page .domainHolder {
+  position: relative;
+  margin: auto;
+
+  width:  180px;
+  height: auto;
+  
+  border-top: 1px solid rgba(255, 255, 255, .2);
+}
+.accessDisableHolder .page .domainHolder .domainItem {
+  position: relative;
+  width:  100%;
+  height: 20px;
+  padding:  5px 0;
+}
+
+.accessDisableHolder .page .domainHolder .domainItem .text.title {
+  float:  left;
+  height: 20px;
+  line-height: 20px;
+}
+
+.accessDisableHolder .page .domainHolder .domainItem .text.icon {
+  float:  right;
+  right:  0;
+
+  height: 16px;
+  width: auto;
+  padding:  2px 5px;
+
+  opacity: .5;
+
+  transition: opacity .2s;
+}
+
+.accessDisableHolder .page .domainHolder .domainItem .text.icon:hover {
+  opacity: .8;
+}
 
 
 

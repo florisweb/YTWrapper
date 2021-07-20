@@ -22,7 +22,7 @@ function YTWrapper_NavBar() {
                         "<div class='item text timeWatchedButton'>15 m</div>" + 
                         "<img class='item icon' src='https://florisweb.ga/YTWrapper/images/settingsIcon.png'>" + 
                       "</div>";
-
+    bar.children[1].children[1].onclick = function() {YTWrapper.accessManager.settingsPage.open();};
     document.body.append(bar);
     return {
       navBar: bar,

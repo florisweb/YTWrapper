@@ -15,7 +15,10 @@ function YTWrapper_AdBlock() {
 	    }
 
 	    if (!isVideoAdPlaying()) return;
-	    skipVideoAd();
+	    if (window.alerted) return;
+	    alert('video ad incoming');
+	    window.alerted = true;
+	    // skipVideoAd();
 	}
 
 

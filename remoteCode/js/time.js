@@ -54,6 +54,17 @@ Date.prototype.getDayName = function() {
 Date.prototype.getTimeInMinutes = function() {
 	return this.getMinutes() + this.getHours() * 60;
 }
+Date.prototype.setTimeFromMinutes = function(_minutes) {
+	this.setHours(Math.floor(_minutes / 60));
+	this.setMinutes(_minutes % 60);
+	return this;
+}
+Date.prototype.formatTime = function() {
+	let hours = this.getHours() > 9 ? this.getHours() : "0" + this.getHours();
+	let minutes = this.getMinutes() > 9 ? this.getMinutes() : "0" + this.getMinutes();
+	return hours + ":" + minutes;
+}
+
 
 Date.prototype.getDateInDays = function(_addYears) {
 	let monthList = this.getMonths();
