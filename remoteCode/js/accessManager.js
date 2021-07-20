@@ -21,14 +21,24 @@ function YTWrapper_AccessManager() {
 									"<br>" + 
 									"<div class='text'>Allowed timedomains</div>" + 
 									"<div class='domainHolder'></div>" + 
-									"<br><br>" + 
+									"<div class='addDomainHolder'>" +
+										"<input class='inputField text hourInput' placeholder='00' maxlength='2'>" + 
+										"<div class='text colon'>:</div>" + 
+										"<input class='inputField text minuteInput'placeholder='00' maxlength='2'>" + 
+										"<div class='text arrowIcon'>➔</div>" + 
+										"<input class='inputField text hourInput' placeholder='00' maxlength='2'>" + 
+										"<div class='text colon'>:</div>" + 
+										"<input class='inputField text minuteInput' placeholder='00' maxlength='2'>" + 
+										"<div class='button bBoxy text'>Add</div>" + 
+									"</div>" + 
+									"<br><br><br><br>" + 
 									"<div class='text button'>Close</div>" + 
 								"</div>" +
 							"</div>";
 
 		document.body.append(holder);
 		holder.children[0].children[0].children[2].onclick = function () {This.settingsPage.open()};
-		holder.children[1].children[0].children[6].onclick = function () {This.disabledPage.open()};
+		holder.children[1].children[0].children[9].onclick = function () {This.disabledPage.open()};
 
 		return {
 			holder: holder,
@@ -194,11 +204,22 @@ function AccessManger_settingsPage(_parent) {
 	const This = this;
 	const Parent = _parent;
 	const HTML = {
-		domainHolder: $('.accessDisableHolder .page .domainHolder')[0]
+		domainHolder: $('.accessDisableHolder .page .domainHolder')[0],
+		addDomainHolder: $('.accessDisableHolder .page .addDomainHolder')[0],
+		addDomainButton: $('.accessDisableHolder .page .addDomainHolder .button')[0],
 	}
+
+	const startTimeInput = new TimeInput(HTML.addDomainHolder.children[0], HTML.addDomainHolder.children[2]);
+	const endTimeInput = new TimeInput(HTML.addDomainHolder.children[4], HTML.addDomainHolder.children[6]);
+	HTML.addDomainButton.onclick = function() {
+		This.addTimeDomain();
+	}
+
 
 	function onOpen() {
 		This.render();
+		startTimeInput.reset();
+		endTimeInput.reset();
 	}
 
 
@@ -209,6 +230,20 @@ function AccessManger_settingsPage(_parent) {
 		{
 			HTML.domainHolder.append(renderDomainHTML(Parent.allowedTimeDomains[i], i));
 		}
+	}
+
+	this.addTimeDomain = function() {
+		let start = startTimeInput.getTimeInMinutes();
+		let end = endTimeInput.getTimeInMinutes();
+		if (typeof start != 'number' || typeof end != 'number') return;
+
+		let domain = [start, end];
+		Parent.allowedTimeDomains.push(domain);
+		localStorage.allowedTimeDomains = JSON.stringify(Parent.allowedTimeDomains);
+
+		this.render();
+		startTimeInput.reset();
+		endTimeInput.reset();
 	}
 
 
@@ -233,9 +268,6 @@ function AccessManger_settingsPage(_parent) {
 	}
 	
 
-
-
-
 }
 
 
@@ -245,7 +277,32 @@ function AccessManger_settingsPage(_parent) {
 
 
 
+function TimeInput(_hourInput, _minuteInput) {
+	this.reset = function() {
+		_hourInput.value = null;
+		_minuteInput.value = null;
+	}
+	this.getTimeInMinutes = function() {
+		let minutes = parseInt(_hourInput.value) * 60 + parseInt(_minuteInput.value);
+		if (isNaN(minutes)) return false;
+		return minutes;
+	}
 
+	_hourInput.addEventListener('input', function() {
+		if (!this.value) return;
+		let hour = parseInt(this.value);
+		if (hour > 24) hour = 24;
+		if (hour < 0) hour = 0;
+		this.value = hour;
+	});
+	_minuteInput.addEventListener('input', function() {
+		if (!this.value) return;
+		let minute = parseInt(this.value);
+		if (minute > 60) minute = 60;
+		if (minute < 0) minute = 0;
+		this.value = minute;
+	});
+}
 
 
 

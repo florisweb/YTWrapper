@@ -114,7 +114,7 @@ ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
   position: relative;
   margin: auto;
 
-  width:  180px;
+  width:  200px;
   height: auto;
   
   border-top: 1px solid rgba(255, 255, 255, .2);
@@ -151,8 +151,60 @@ ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
 
 
 
+.accessDisableHolder .page .addDomainHolder {
+  position: relative;
+  margin:  auto;
+  width:  240px;
+  margin-top: 20px;
 
+}
+.accessDisableHolder .page .addDomainHolder .text.arrowIcon {
+  float:  left;
+  width:  30px;
+  font-size: 14px;
+  text-align: center;
+}
+.accessDisableHolder .page .addDomainHolder input.inputField {
+  float: left;
+  width:  30px;
+  height: 20px;
+  padding:  5px 5px;
+  border:  1px solid rgba(255, 255, 255, .4);
+  
+  font-size: 12px;
+  line-height: 20px;
+}
+.accessDisableHolder .page .addDomainHolder .text.colon {
+  float:  left;
+  border-top:  1px solid rgba(255, 255, 255, .4);
+  border-bottom:  1px solid rgba(255, 255, 255, .4);
+  
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
+}
 
+.accessDisableHolder .page .addDomainHolder input.inputField.minuteInput {
+  border-left:  none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-left: 0;
+}
+.accessDisableHolder .page .addDomainHolder input.inputField.hourInput {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 0;
+}
+
+.accessDisableHolder .page .addDomainHolder .button.bBoxy.text {
+  float:  left;
+  margin-left: 10px;
+  width:  auto;
+  border:  1px solid rgba(255, 255, 255, .3);
+  font-size: 12px;
+  padding: 0 10px !important;
+}
 
 
 
