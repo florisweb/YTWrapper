@@ -1,40 +1,137 @@
 
 function YTWrapper_VideoManager() {
-	this.update = function() {
-		insertSidebarVideoLinkInterseptors();
-		insertHomescreenVideoLinkInterseptors();
+	const This = this;
+	this.blockedChannels = [];
+	this.setup = function() {
+		if (localStorage.blockedChannels) this.blockedChannels = JSON.parse(localStorage.blockedChannels);
+		if (!this.blockedChannels) this.blockedChannels = [];
+
+		this.blockButton.setup();
 	}
 
-	function insertHomescreenVideoLinkInterseptors() {
-		let elements = document.querySelectorAll('YTD-RICH-ITEM-RENDERER.style-scope.ytd-rich-grid-renderer #content #dismissible');
-		for (let element of elements)
-		{
-			if (element.interseptorInserted) continue;
-			element.interseptorInserted = true;
+	this.update = function() {
+		this.scrapeCurVideo();
+		insertSidebarVideoLinkInterseptors();
+		insertHomescreenVideoLinkInterseptors();
 
-			let thumbnail = element.children[0].children[0];
-			if (element.children[1].children.length < 2) continue;
-			let info = element.children[1].children[1];
-			let rawTitle = info.children[0].children[1].children[0].innerHTML;
-			let rawChannelTitle = info.children[1].children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].innerHTML;
+		if (!this.curVideo) return;
+		this.blockButton.setBlockStatus(this.blockedChannels.includes(this.curVideo.channel));
+	}
 
-			let link = thumbnail.href;
-			thumbnail.style.pointerEvents = 'none';
-			info.style.pointerEvents = 'none';
+	document.body.addEventListener('load', function() {
+		YTWrapper.videoManager.scrapeCurVideo();
+		console.log('test', YTWrapper.videoManager.curVideo);
+	})
 
 
-			let video = new Video({
-				url: link,
-				title: cleanString(rawTitle),
-				channel: cleanString(rawChannelTitle)
-			});
-			window.vid = video;
+	this.curVideo = false;
+	this.scrapeCurVideo = function() {
+		let titleHolder = document.querySelector('#info-contents .title .style-scope');
+		let channelHolder = document.querySelector('#upload-info.ytd-video-owner-renderer .ytd-channel-name a');
+		if (!titleHolder || !channelHolder) return this.curVideo = false;
 
-			element.onclick = async function() {
-				YTWrapper.navBar.tabHolder.addTab({video: video});
+		this.curVideo = new Video({
+			url: window.location.href,
+			title: cleanString(titleHolder.innerHTML),
+			channel: cleanString(channelHolder.innerHTML),
+		});
+		return this.curVideo;
+	}
+
+
+
+
+	this.blockButton = new function() {
+		const Button = this;
+		const HTML = {}
+
+		this.blocked = false;
+		this.setup = function() {
+			let buttonHolder = document.querySelector('#info-contents #menu ytd-menu-renderer');
+			if (!buttonHolder) return setTimeout(() => {YTWrapper.videoManager.blockButton.setup()}, 100);
+
+			HTML.button = document.createElement('div');
+			HTML.button.className = 'text button blockButton';
+			HTML.button.onclick = function() {
+				if (!YTWrapper.videoManager.curVideo) return;
+				Button.setBlockStatus(!Button.blocked);
+				if (Button.blocked)
+				{
+					This.blockedChannels.push(This.curVideo.channel);
+				} else {
+					This.blockedChannels.splice(This.blockedChannels.indexOf(This.curVideo.channel), 1);
+				}
+				localStorage.blockedChannels = JSON.stringify(This.blockedChannels);
+			}
+
+			buttonHolder.append(HTML.button);
+			this.setBlockStatus(false);
+		}
+
+		this.setBlockStatus = function(_status) {
+			this.blocked = _status;
+			if (this.blocked)
+			{
+				HTML.button.innerHTML = 'UNBLOCK CHANNEL';
+			} else {
+				HTML.button.innerHTML = 'BLOCK CHANNEL';
 			}
 		}
 	}
+
+
+
+	function insertHomescreenVideoLinkInterseptors() {
+		let elements = document.querySelectorAll('YTD-RICH-ITEM-RENDERER.ytd-rich-grid-renderer');
+		for (let element of elements)
+		{
+			// if (element.interseptorInserted) continue;
+			// element.interseptorInserted = true;
+			new VideoElement(element);
+		}
+	}
+
+	function VideoElement(_element) {
+		let element = _element;
+		this.video;
+		this.remove = function() {
+			element.parentNode.removeChild(element);
+		}
+
+
+		let titleElement = element.querySelector('#video-title');
+		let channelElement = element.querySelector('.ytd-channel-name .yt-formatted-string');
+		let thumbnail = element.querySelector('#thumbnail');
+		let details = element.querySelector('#details');
+
+
+		if (!titleElement || !channelElement || !thumbnail || !details) return this.remove();
+
+		thumbnail.style.pointerEvents = 'none';
+		details.style.pointerEvents = 'none';
+
+
+		let video = new Video({
+			url: thumbnail.href,
+			title: cleanString(titleElement.innerHTML),
+			channel: cleanString(channelElement.innerHTML)
+		});
+
+		if (video.shouldRemove()) return this.remove();
+
+
+		element.onclick = () => {
+			YTWrapper.navBar.tabHolder.addTab({video: video});
+		};
+	}
+
+	function cleanString(_str) {
+		return removeSpacesFromEnds(_str.split('\n').join(''));
+	}
+
+
+
+
 
 
 	function insertSidebarVideoLinkInterseptors() {
@@ -69,10 +166,7 @@ function YTWrapper_VideoManager() {
 		}
 	}
 
-	function cleanString(_str) {
-		return removeSpacesFromEnds(_str.split('\n').join(''));
-	}
-
+	
 
 
 	function removeSpacesFromEnds(_str) {
@@ -95,7 +189,15 @@ function YTWrapper_VideoManager() {
 
 function Video({url, title, channel}) {
 	this.url = url;
+	this.key = this.url.split('.com/watch?v=')[1];
 	this.title = title;
 	this.channel = channel;
 
+	this.shouldRemove = function() {
+		return YTWrapper.videoManager.blockedChannels.includes(this.channel);
+	}
 }
+
+
+
+

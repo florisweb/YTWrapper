@@ -92,7 +92,7 @@ function YTWrapper_NavBar() {
     function Tab({id, video}) {
       let This = this;
       this.id = id ? id : newId();
-      this.video = video;
+      this.video = new Video(video);
       this.HTML = createHTML(video);
 
       function createHTML(_video) {
@@ -114,6 +114,7 @@ function YTWrapper_NavBar() {
       }
 
       this.open = function() {
+        // YTWrapper.createVideoEmbed(this.video.key);
         window.location.replace(this.video.url);
       }
 

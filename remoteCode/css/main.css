@@ -13,7 +13,7 @@
 }
 
 /*=== Hide Items ====*/
-/*.style-scope.ytd-masthead yt-icon-button:not(.ytd-notification-topbar-button-renderer):first-child{
+.style-scope.ytd-masthead yt-icon-button:not(.ytd-notification-topbar-button-renderer):first-child{
   display: none;
 }
 
@@ -21,16 +21,18 @@
 #action-companion-click-target, .ytp-ad-module {
   display: none;
 }
-*/
+
 
 /* UI components we don't want */
-/*yt-related-chip-cloud-renderer, 
+yt-related-chip-cloud-renderer, 
 .super-title.ytd-video-primary-info-renderer, 
 ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
   display: none;
-}*/
+}
 
 
+
+#masthead-container
 
 
 
@@ -41,6 +43,7 @@ ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
   height: 100vh;
   overflow-x: hidden;
   overflow-y:  auto;
+  border:  1px solid red;
 }
 
 
@@ -270,3 +273,61 @@ ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
   color: #555;
   font-size: 15px;
 }
+
+
+
+
+
+
+
+
+#menu .button {
+  position: relative;
+  margin-top: 3px;
+
+  height: 16px;
+  line-height: 16px;
+  padding: 7px 7px !important;
+
+  border-radius: 5px;
+  border:  1px solid #fff;
+
+  color:  #fff;
+  font-size: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+iframe.videoContainer {
+  position: fixed;
+  left:  0;
+  top:  100px;
+
+  width:  100vw;
+  height: calc(100vh - 100px);
+  border:  1px solid orange;
+}
+
+
+/*VideoTab styles*/
+
+body.isVideoTab #masthead-container {
+  display: none;
+}
+
+body.isVideoTab .ytd-watch-next-secondary-results-renderer {
+  display: none;
+}
+
+
+
+
+

@@ -15,10 +15,7 @@ function YTWrapper_AdBlock() {
 	    }
 
 	    if (!isVideoAdPlaying()) return;
-	    if (window.alerted) return;
-	    alert('video ad incoming');
-	    window.alerted = true;
-	    // skipVideoAd();
+	    skipVideoAd();
 	}
 
 
@@ -32,6 +29,7 @@ function YTWrapper_AdBlock() {
 		'#preskip-component:y',
 		'#preskip-component:j',
 		'.ytp-ad-player-overlay-skip-or-preview',
+		'.ytp-ad-skip-button-slot',
 	];
 
 	for (let i = 0; i < 10; i++) vidAdIndicators.push('#skip-button:' + i);
@@ -53,9 +51,10 @@ function YTWrapper_AdBlock() {
 
 	async function skipVideoAd() {
 		let videos = document.getElementsByTagName('video');
-		if (!videos[0]) return;
-
-		videos[0].currentTime = 100000;
+		if (videos[0]) videos[0].currentTime = 100000;
+		
+		let skipButton = document.querySelectorAll('.ytp-ad-skip-button-slot')[0];
+		if (skipButton) skipButton.click();
 	}
 
 

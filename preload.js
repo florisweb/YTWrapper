@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
   document.body.onload = function () {
-    addCSS('https://florisweb.ga/YTWrapper/main.css?a=' + Math.round(Math.random() * 100000));
-    addJS('https://florisweb.ga/YTWrapper/main.js?a=' + Math.round(Math.random() * 100000));
+    addCSS('https://florisweb.dev/YTWrapper/main.css?a=' + Math.round(Math.random() * 100000));
+    addJS('https://florisweb.dev/YTWrapper/main.js?a=' + Math.round(Math.random() * 100000));
   }
 });
 

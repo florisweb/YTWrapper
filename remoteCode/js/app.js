@@ -34,16 +34,20 @@ const YTWrapper = new function() {
 
 		// document.body.innerHTML = "<div id='tabHolder'>" + prevHTML + "</div>";
 
-
+		this.videoManager.setup();
 		this.navBar.setup();
 		this.accessManager.setup();
 		this.update();
 	}
 
+	this.createVideoEmbed = function(_key) {
+		let embed = new VideoEmbed({key: _key});
+	}
+
+
 	let updates = 0;
   	let lastSlowUpdate = 0;
   	let lastSuperSlowUpdate = 0;
-
 	this.update = function() {
 		updates++;
 	    if (updates > lastSlowUpdate + 10)
@@ -69,9 +73,36 @@ const YTWrapper = new function() {
 
 		setTimeout(function() {
 			YTWrapper.update()
-		}, 100);
+		}, 50);
 	}
-
 }
+
+
+function VideoEmbed({key: key}) {
+	let url = 'https://youtube.com/embed/' + key;
+	url = 'https://youtube.com/watch?v=' + key;
+
+	let element = document.createElement('iframe');
+	element.classList.add('videoContainer');
+	element.setAttribute('src', url);
+	element.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+	element.setAttribute('allowfullscreen', true);
+	document.body.append(element);
+
+	element.onload = function() {
+		console.log('loaded');
+		
+		let style = document.createElement('link');
+		style.href = 'https://florisweb.dev/YTWrapper/main.css?a=' + Math.round(Math.random() * 100000);
+		style.type = 'text/css';
+		style.rel = 'stylesheet';
+
+		element.contentDocument.head.append(style);
+		element.contentDocument.body.style.border = '5px solid red';
+		element.contentDocument.body.classList.add('isVideoTab');
+	}
+	return element;
+}
+
 
 YTWrapper.setup();
