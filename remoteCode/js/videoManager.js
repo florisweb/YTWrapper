@@ -118,7 +118,7 @@ function YTWrapper_VideoManager() {
 		});
 
 		if (video.shouldRemove()) return this.remove();
-
+		element.classList.add('approvedVideo');
 
 		element.onclick = () => {
 			YTWrapper.navBar.tabHolder.addTab({video: video});
