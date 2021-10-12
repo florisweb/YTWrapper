@@ -291,12 +291,15 @@ ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
 
   border-radius: 5px;
   border:  1px solid #fff;
+  background: transparent;
 
   color:  #fff;
   font-size: 12px;
 }
 
-
+#menu .button.videoTypeButton {
+  height: 32px;
+}
 
 
 

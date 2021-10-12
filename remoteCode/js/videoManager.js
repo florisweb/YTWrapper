@@ -7,17 +7,16 @@ function YTWrapper_VideoManager() {
 		if (!this.blockedChannels) this.blockedChannels = [];
 
 		this.blockButton.setup();
+		this.videoTypeButton.setup();
 	}
 
 	this.update = function() {
 		this.scrapeCurVideo();
 		insertSidebarVideoLinkInterseptors();
 		insertHomescreenVideoLinkInterseptors();
-
-		if (!this.curVideo) return;
-		this.blockButton.setBlockStatus(this.blockedChannels.includes(this.curVideo.channel));
 	}
 
+	
 	document.body.addEventListener('load', function() {
 		YTWrapper.videoManager.scrapeCurVideo();
 		console.log('test', YTWrapper.videoManager.curVideo);
@@ -28,15 +27,33 @@ function YTWrapper_VideoManager() {
 	this.scrapeCurVideo = function() {
 		let titleHolder = document.querySelector('#info-contents .title .style-scope');
 		let channelHolder = document.querySelector('#upload-info.ytd-video-owner-renderer .ytd-channel-name a');
-		if (!titleHolder || !channelHolder) return this.curVideo = false;
+		
+		let prevVideo = this.curVideo;
+		if (!titleHolder || !channelHolder) 
+		{
+			this.curVideo = false;
+			if (prevVideo.url != this.curVideo.url) onCurVideoChange();
+			return this.curVideo;
+		}
 
 		this.curVideo = new Video({
 			url: window.location.href,
 			title: cleanString(titleHolder.innerHTML),
 			channel: cleanString(channelHolder.innerHTML),
 		});
+
+		if (prevVideo.url != this.curVideo.url) onCurVideoChange();
 		return this.curVideo;
 	}
+
+	function onCurVideoChange() {
+		console.warn('Video change ->', This.curVideo.title);
+		This.videoTypeButton.updateButtonValue();
+
+		if (!This.curVideo) return;
+		This.blockButton.setBlockStatus(This.blockedChannels.includes(This.curVideo.channel));
+	}
+
 
 
 
@@ -76,6 +93,70 @@ function YTWrapper_VideoManager() {
 			} else {
 				HTML.button.innerHTML = 'BLOCK CHANNEL';
 			}
+		}
+	}
+
+	this.videoTypeButton = new function() {
+		const Button = this;
+		const HTML = {}
+		const options = [
+			"Music",
+			"Entertainment",
+			"Education",
+			"Philosophy",
+			"Infotainment",
+			"Rest"
+		];
+
+		this.blocked = false;
+		this.setup = function() {
+			let buttonHolder = document.querySelector('#info-contents #menu ytd-menu-renderer');
+			if (!buttonHolder) return setTimeout(() => {YTWrapper.videoManager.videoTypeButton.setup()}, 100);
+
+			HTML.button = document.createElement('select');
+			HTML.button.className = 'text button videoTypeButton';
+			HTML.button.innerHTML = '<option value="-1" disabled selected>Videotype</option>';
+
+			for (let i = 0; i < options.length; i++)
+			{
+				let option = document.createElement('option');
+				option.value = i;
+				option.innerHTML = options[i];
+				HTML.button.append(option);
+			};
+			
+			HTML.button.onchange = function() {
+				if (!This.curVideo) return;
+
+				let videoClassifications = getVideoClassifications();
+
+				videoClassifications[This.curVideo.key] = {
+					key: This.curVideo.key,
+					title: This.curVideo.title,
+					channel: This.curVideo.channel,
+					type: this.value,
+				};
+				localStorage.videoTypes = JSON.stringify(videoClassifications);
+			}
+
+			buttonHolder.append(HTML.button);
+		}
+
+		this.updateButtonValue = function() {
+			let videoClassifications = getVideoClassifications();
+			let type = -1;
+			if (This.curVideo) 
+			{
+				let vidData = videoClassifications[This.curVideo.key];
+				if (vidData) type = vidData.type;
+			}
+			HTML.button.value = type;
+		}
+
+		function getVideoClassifications() {
+			let videoClassifications = localStorage.videoTypes ? JSON.parse(localStorage.videoTypes) : {};
+			if (!videoClassifications) return {};
+			return videoClassifications;
 		}
 	}
 
