@@ -34,6 +34,14 @@ function YTWrapper_AccessManager() {
 									"<br><br><br><br>" + 
 									"<div class='text button'>Close</div>" + 
 								"</div>" +
+							"</div>" + 
+							"<div class='page hide'>" + 
+								"<div class='textHolder'>" + 
+									"<div class='text header countDownTimeHolder'>0s</div>" + 
+									"<div class='text'>Adding Timedomain...</div>" + 
+									"<br>" + 
+									"<div class='text button cancelButton'>Cancel</div>" + 
+								"</div>" +
 							"</div>";
 
 		document.body.append(holder);
@@ -46,9 +54,10 @@ function YTWrapper_AccessManager() {
 	}
 
 
-	this.disabledPage 	= new AccessManger_disabledPage(this);
-	this.settingsPage 	= new AccessManger_settingsPage(this);
-	this.curPage 		= this.disabledPage;
+	this.disabledPage 			= new AccessManger_disabledPage(this);
+	this.settingsPage  			= new AccessManger_settingsPage(this);
+	this.addingTimeDomainPage 	= new AccessManger_addingTimeDomainPage(this);
+	this.curPage 				= this.disabledPage;
 
 
 	this.allowedTimeDomains = [[1000, 1100], [1200, 1300], [1400, 1439]];// [startMinute, stopMinute]
@@ -136,7 +145,7 @@ function AccessManger_page(_index, _parent, _onOpen) {
 		Parent.open();
 
 		try {
-			_onOpen();
+			return _onOpen(...arguments);
 		} catch (e) {}
 	}
 }
@@ -211,8 +220,10 @@ function AccessManger_settingsPage(_parent) {
 
 	const startTimeInput = new TimeInput(HTML.addDomainHolder.children[0], HTML.addDomainHolder.children[2]);
 	const endTimeInput = new TimeInput(HTML.addDomainHolder.children[4], HTML.addDomainHolder.children[6]);
-	HTML.addDomainButton.onclick = function() {
-		This.addTimeDomain();
+	HTML.addDomainButton.onclick = async function() {
+		let notCanceled = await Parent.addingTimeDomainPage.open(1000 * 60 * 5);
+		if (notCanceled) This.addTimeDomain();
+		This.open();
 	}
 
 
@@ -266,13 +277,57 @@ function AccessManger_settingsPage(_parent) {
 
 		return html;
 	}
-	
+}
 
+function AccessManger_addingTimeDomainPage(_parent) {
+	AccessManger_page.call(this, 2, _parent, onOpen);
+	const This = this;
+	const Parent = _parent;
+	const HTML = {
+		countDownTimeHolder: $('.accessDisableHolder .page .countDownTimeHolder')[0],
+		cancelButton: $('.accessDisableHolder .page .cancelButton')[0],
+	}
+
+	let resolver;
+	let promise;
+	function onOpen(_timeout) {
+		setTimeout(() => {
+			resolver(true);
+		}, _timeout);
+
+		promise = new StatePromise((resolve) => {
+			resolver = resolve;
+			HTML.cancelButton.onclick = () => {resolve(false)}
+		});
+		countDownLoop(_timeout);
+		return promise;
+	}
+	function countDownLoop(_timeout) {
+		if (_timeout < 0 || promise.isResolved()) return;
+		setTextToElement(HTML.countDownTimeHolder, Math.ceil(_timeout / 1000) + "s");
+		setTimeout(countDownLoop, 1000, _timeout - 1000);
+	}
 }
 
 
 
 
+
+function StatePromise(func) {
+	const This = this;
+	this.resolved = false;
+	let p = new Promise((res, err) => {
+		func(() => {
+			This.resolved = true;
+			res();
+		}, () => {
+			This.resolved = true;
+			err();
+		});
+	});
+	p.isResolved = () => this.resolved;
+	return p;
+}
 
 
 

@@ -26,7 +26,9 @@
 /* UI components we don't want */
 yt-related-chip-cloud-renderer, 
 .super-title.ytd-video-primary-info-renderer, 
-ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
+ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer,
+.videowall-endscreen,
+.ytp-autonav-toggle-button-container {
   display: none;
 }
 
@@ -209,7 +211,11 @@ ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer {
   padding: 0 10px !important;
 }
 
-
+.accessDisableHolder .page .text.header.countDownTimeHolder {
+  height: 100px;
+  font-size: 80px;
+  line-height: 100px;
+}
 
 
 

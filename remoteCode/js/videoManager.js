@@ -105,7 +105,9 @@ function YTWrapper_VideoManager() {
 			"Education",
 			"Philosophy",
 			"Infotainment",
-			"Rest"
+			"(Film)Clip",
+			"Review",
+			"Politics"
 		];
 
 		this.blocked = false;
@@ -163,19 +165,16 @@ function YTWrapper_VideoManager() {
 
 
 	function insertHomescreenVideoLinkInterseptors() {
-		let elements = document.querySelectorAll('YTD-RICH-ITEM-RENDERER.ytd-rich-grid-renderer');
-		for (let element of elements)
-		{
-			// if (element.interseptorInserted) continue;
-			// element.interseptorInserted = true;
-			new VideoElement(element);
-		}
+		let elements = document.querySelectorAll('YTD-RICH-ITEM-RENDERER');
+		for (let element of elements) new VideoElement(element);
 	}
 
 	function VideoElement(_element) {
 		let element = _element;
 		this.video;
+		console.log('Found video', this.video);
 		this.remove = function() {
+			console.log('remove video', this.video);
 			element.parentNode.removeChild(element);
 		}
 
