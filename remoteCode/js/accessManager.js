@@ -317,12 +317,12 @@ function StatePromise(func) {
 	const This = this;
 	this.resolved = false;
 	let p = new Promise((res, err) => {
-		func(() => {
+		func(function() {
 			This.resolved = true;
-			res();
-		}, () => {
+			res(...arguments);
+		}, function() {
 			This.resolved = true;
-			err();
+			err(...arguments);
 		});
 	});
 	p.isResolved = () => this.resolved;
