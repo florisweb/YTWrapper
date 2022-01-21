@@ -11,8 +11,7 @@ function YTWrapper_VideoManager() {
 	}
 
 	this.update = function() {
-		this.scrapeCurVideo();
-		insertSidebarVideoLinkInterseptors();
+		// insertSidebarVideoLinkInterseptors();
 		insertHomescreenVideoLinkInterseptors();
 	}
 
@@ -32,7 +31,7 @@ function YTWrapper_VideoManager() {
 		if (!titleHolder || !channelHolder) 
 		{
 			this.curVideo = false;
-			if (prevVideo.url != this.curVideo.url) onCurVideoChange();
+			if (prevVideo) onCurVideoChange();
 			return this.curVideo;
 		}
 
@@ -47,10 +46,9 @@ function YTWrapper_VideoManager() {
 	}
 
 	function onCurVideoChange() {
-		console.warn('Video change ->', This.curVideo.title);
-		This.videoTypeButton.updateButtonValue();
-
+		console.warn('Video change ->', This.curVideo ? This.curVideo.title : false);
 		if (!This.curVideo) return;
+		This.videoTypeButton.updateButtonValue();
 		This.blockButton.setBlockStatus(This.blockedChannels.includes(This.curVideo.channel));
 	}
 
@@ -130,7 +128,7 @@ function YTWrapper_VideoManager() {
 			HTML.button.onchange = function() {
 				if (!This.curVideo) return;
 
-				let videoClassifications = getVideoClassifications();
+				let videoClassifications = Button.getVideoClassifications();
 
 				videoClassifications[This.curVideo.key] = {
 					key: This.curVideo.key,
@@ -145,7 +143,7 @@ function YTWrapper_VideoManager() {
 		}
 
 		this.updateButtonValue = function() {
-			let videoClassifications = getVideoClassifications();
+			let videoClassifications = Button.getVideoClassifications();
 			let type = -1;
 			if (This.curVideo) 
 			{
@@ -155,7 +153,7 @@ function YTWrapper_VideoManager() {
 			HTML.button.value = type;
 		}
 
-		function getVideoClassifications() {
+		this.getVideoClassifications = function() {
 			let videoClassifications = localStorage.videoTypes ? JSON.parse(localStorage.videoTypes) : {};
 			if (!videoClassifications) return {};
 			return videoClassifications;
@@ -163,18 +161,22 @@ function YTWrapper_VideoManager() {
 	}
 
 
+	this.clearInjectionFlags = function() {
+		console.warn('clear flags');
+		let elements = document.querySelectorAll('YTD-RICH-ITEM-RENDERER.injected');
+		for (let element of elements) element.classList.remove('injected');
+	}
 
 	function insertHomescreenVideoLinkInterseptors() {
-		let elements = document.querySelectorAll('YTD-RICH-ITEM-RENDERER');
+		let elements = document.querySelectorAll('YTD-RICH-ITEM-RENDERER:not(.injected)');
 		for (let element of elements) new VideoElement(element);
 	}
 
 	function VideoElement(_element) {
 		let element = _element;
+		element.classList.add("injected");
 		this.video;
-		console.log('Found video', this.video);
 		this.remove = function() {
-			console.log('remove video', this.video);
 			element.parentNode.removeChild(element);
 		}
 
@@ -196,13 +198,21 @@ function YTWrapper_VideoManager() {
 			title: cleanString(titleElement.innerHTML),
 			channel: cleanString(channelElement.innerHTML)
 		});
-
 		if (video.shouldRemove()) return this.remove();
-		element.classList.add('approvedVideo');
 
+		let vidClassifications = YTWrapper.videoManager.videoTypeButton.getVideoClassifications();
+		let videoData = vidClassifications[video.key];
+		element.classList.add('approvedVideo');
 		element.onclick = () => {
 			YTWrapper.navBar.tabHolder.addTab({video: video});
 		};
+		
+		let elements = element.querySelectorAll('#metadata #metadata-line .style-scope.ytd-video-meta-block');
+		let textElement = elements[1];
+		if (videoData) 
+		{	
+			textElement.innerHTML += " - " + videoData.type;
+		} else textElement.innerHTML += " - ?";
 	}
 
 	function cleanString(_str) {
@@ -274,6 +284,9 @@ function Video({url, title, channel}) {
 	this.channel = channel;
 
 	this.shouldRemove = function() {
+		let vidClassifications = YTWrapper.videoManager.videoTypeButton.getVideoClassifications();
+		let videoData = vidClassifications[this.key];
+		if (YTWrapper.mode == MUSICMODE && videoData && videoData.type != 'Music') return true;
 		return YTWrapper.videoManager.blockedChannels.includes(this.channel);
 	}
 }

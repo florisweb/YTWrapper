@@ -114,7 +114,6 @@ function YTWrapper_NavBar() {
       }
 
       this.open = function() {
-        // YTWrapper.createVideoEmbed(this.video.key);
         window.location.replace(this.video.url);
       }
 

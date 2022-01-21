@@ -1,4 +1,7 @@
+console.info("loaded page");
 
+const MUSICMODE = Symbol();
+const VIDEOMODE = Symbol();
 
 const YTWrapper = new function() {
 	this.adBlock 		= new YTWrapper_AdBlock();
@@ -6,39 +9,68 @@ const YTWrapper = new function() {
 	this.videoManager 	= new YTWrapper_VideoManager();
 	this.accessManager 	= new YTWrapper_AccessManager();
 
+	this.mode 			= VIDEOMODE;
+
+	this.setMode = function(_mode) {
+		this.mode = _mode;
+
+		document.body.classList.remove('musicMode');
+		if (this.mode == MUSICMODE) document.body.classList.add('musicMode');
+	}
+	let lastRefesh = new Date();
+	this.refreshPage = function() {
+		lastRefesh = new Date();
+		console.info("Refresh page");
+		this.videoManager.clearInjectionFlags();
+		this.videoManager.scrapeCurVideo();
+		this.videoManager.update();
+	}
+
 	this.setup = async function() {
 		console.warn('YTWrapper.setup()');
 
-		// let prevHTML = document.body.innerHTML;
+		// let wrapper = document.createElement('div');
+		// wrapper.classList.add('tabWrapper');
 
-		let wrapper = document.createElement('div');
-		wrapper.classList.add('tabWrapper');
+		// for (let i = document.body.children.length - 1; i >= 0; i--)
+		// {
+		// 	wrapper.append(document.body.children[i]);
+		// }
 
-		for (let i = document.body.children.length - 1; i >= 0; i--)
-		{
-			wrapper.append(document.body.children[i]);
-		}
+		// document.body.append(wrapper);
 
-		document.body.append(wrapper);
-
-
-		// let wrapper2 = document.createElement('div');
-		// wrapper2.classList.add('tabWrapper');
-		// let urlParts = window.location.href.split('?');
-		// // wrapper2.innerHTML = await REQUEST.send(urlParts[0], urlParts[1]);
-		// wrapper2.innerHTML = await REQUEST.send('https://www.youtube.com');
-
-		// document.body.append(wrapper2);
-
-
-
-		// document.body.innerHTML = "<div id='tabHolder'>" + prevHTML + "</div>";
+		// let ytIcons = $("#logo-icon");
+		// for (let icon of ytIcons) icon.onclick = function() {YTWrapper.refreshPage()};
 
 		this.videoManager.setup();
 		this.navBar.setup();
 		this.accessManager.setup();
 		this.update();
+		setTimeout(() => {
+			YTWrapper.refreshPage();
+		}, 500);
+
+		redirectDetectorLoop();
 	}
+	function redirectDetectorLoop() {
+		let progressHolders = $("yt-page-navigation-progress");
+		if (progressHolders.length)
+		{
+			let curValue = progressHolders[0].ariaValueNow;
+			if (curValue != "100" && curValue != null)
+			{
+				if (new Date() - lastRefesh > 200) 
+				{
+					setTimeout(() => { 
+						YTWrapper.refreshPage();
+						setTimeout(redirectDetectorLoop, 50 + 1000);
+					}, 1000);
+				}
+			} else setTimeout(redirectDetectorLoop, 50);
+		} else setTimeout(redirectDetectorLoop, 50);
+	}
+
+
 
 	this.createVideoEmbed = function(_key) {
 		let embed = new VideoEmbed({key: _key});
@@ -73,7 +105,7 @@ const YTWrapper = new function() {
 
 		setTimeout(function() {
 			YTWrapper.update()
-		}, 50);
+		}, 200);
 	}
 }
 
