@@ -53,8 +53,10 @@ function YTWrapper_NavBar() {
     }*/
 
     this.setup = function() {
+      this.render();
+    }
+    this.render = function() {
       if (localStorage.tabs) this.tabs = JSON.parse(localStorage.tabs);
-
       HTML.tabHolder.innerHTML = '';
       for (let tab of this.tabs) 
       {
@@ -95,9 +97,12 @@ function YTWrapper_NavBar() {
       this.video = new Video(video);
       this.HTML = createHTML(video);
 
+
       function createHTML(_video) {
+        let isActive = YTWrapper.videoManager.curVideo ? _video.key == YTWrapper.videoManager.curVideo.key : false;
         let tab = document.createElement('div');
         tab.classList.add('tab');
+        if (isActive) tab.classList.add('active');
 
         tab.innerHTML = '<div class="text closeButton">x</div><div class="text titleHolder"></div>';
         let closeButton = tab.children[0];

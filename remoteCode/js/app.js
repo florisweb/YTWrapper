@@ -24,6 +24,7 @@ const YTWrapper = new function() {
 		this.videoManager.clearInjectionFlags();
 		this.videoManager.scrapeCurVideo();
 		this.videoManager.update();
+		this.navBar.tabHolder.render()
 	}
 
 	this.setup = async function() {

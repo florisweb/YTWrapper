@@ -89,9 +89,20 @@ body.no-scroll #navBar:not(.showInFullScreen) {
   transition: all .3s;
 }
 
-#navBar .tabHolder .tab:hover {
+
+
+#navBar .tabHolder .tab.active, #navBar .tabHolder .tab:hover {
   padding-left: 29px;
+  width: 1000%;
+  background:  rgba(50, 50, 100, 1);
+  z-index: 100;
 }
+
+#navBar .tabHolder .tab.active:not(:hover) {
+  padding-left: 4px;
+  background:  rgba(50, 50, 100, .7);
+}
+
 #navBar .tabHolder .tab.remove {
   opacity: 0;
   max-width: 0;
