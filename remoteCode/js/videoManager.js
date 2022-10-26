@@ -62,7 +62,7 @@ function YTWrapper_VideoManager() {
 
 		this.blocked = false;
 		this.setup = function() {
-			let buttonHolder = document.querySelector('#info-contents #menu ytd-menu-renderer');
+			let buttonHolder = document.querySelector('ytd-menu-renderer.ytd-watch-metadata');
 			if (!buttonHolder) return setTimeout(() => {YTWrapper.videoManager.blockButton.setup()}, 100);
 
 			HTML.button = document.createElement('div');
@@ -87,9 +87,9 @@ function YTWrapper_VideoManager() {
 			this.blocked = _status;
 			if (this.blocked)
 			{
-				HTML.button.innerHTML = 'UNBLOCK CHANNEL';
+				HTML.button.innerHTML = 'Unblock';
 			} else {
-				HTML.button.innerHTML = 'BLOCK CHANNEL';
+				HTML.button.innerHTML = 'Block';
 			}
 		}
 	}
@@ -110,7 +110,7 @@ function YTWrapper_VideoManager() {
 
 		this.blocked = false;
 		this.setup = function() {
-			let buttonHolder = document.querySelector('#info-contents #menu ytd-menu-renderer');
+			let buttonHolder = document.querySelector('ytd-menu-renderer.ytd-watch-metadata');
 			if (!buttonHolder) return setTimeout(() => {YTWrapper.videoManager.videoTypeButton.setup()}, 100);
 
 			HTML.button = document.createElement('select');
