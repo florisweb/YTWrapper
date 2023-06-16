@@ -1,7 +1,7 @@
 
 function YTWrapper_AccessManager() {
 	let This = this;
-	let HTML = createHTML();
+	let HTML;
 	this.disabled = false;
 
 
@@ -76,6 +76,7 @@ function YTWrapper_AccessManager() {
 
 
 	this.setup = function() {
+		HTML = createHTML();
 		if (localStorage.timeHistory) this.timeHistory = JSON.parse(localStorage.timeHistory);
 		if (localStorage.maxTotalTime) this.maxTotalTime = parseInt(localStorage.maxTotalTime);
 		if (localStorage.allowedTimeDomains) this.allowedTimeDomains = JSON.parse(localStorage.allowedTimeDomains);

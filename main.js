@@ -10,8 +10,9 @@ function createWindow () {
     frame: false,
     icon: path.join(__dirname, 'images/iconTemplate.png'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      devTools: false,
+      // preload: path.join(__dirname, 'preload.js'),
+    preload: path.join(__dirname, './dist/preload.js'),
+      // devTools: false,
     }
   })
 

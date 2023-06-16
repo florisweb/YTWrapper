@@ -137,5 +137,3 @@ function VideoEmbed({key: key}) {
 	return element;
 }
 
-
-YTWrapper.setup();

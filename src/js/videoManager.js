@@ -3,6 +3,11 @@ function YTWrapper_VideoManager() {
 	const This = this;
 	this.blockedChannels = [];
 	this.setup = function() {
+		document.body.addEventListener('load', function() {
+			YTWrapper.videoManager.scrapeCurVideo();
+			console.log('test', YTWrapper.videoManager.curVideo);
+		});
+
 		if (localStorage.blockedChannels) this.blockedChannels = JSON.parse(localStorage.blockedChannels);
 		if (!this.blockedChannels) this.blockedChannels = [];
 
@@ -16,11 +21,6 @@ function YTWrapper_VideoManager() {
 	}
 
 	
-	document.body.addEventListener('load', function() {
-		YTWrapper.videoManager.scrapeCurVideo();
-		console.log('test', YTWrapper.videoManager.curVideo);
-	})
-
 
 	this.curVideo = false;
 	this.scrapeCurVideo = function() {
