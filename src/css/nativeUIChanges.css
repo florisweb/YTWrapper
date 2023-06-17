@@ -1,0 +1,56 @@
+
+
+
+
+
+/*
+#chips-wrapper, #primary, #contentContainer, #secondary {
+  margin-top: 40px;
+}
+
+
+
+#masthead {
+  padding-top: 40px;
+  background: rgba(20, 20, 20, .5);
+  backdrop-filter: blur(50px);
+}
+*/
+
+
+
+
+/*=== Hide Items ====*/
+.style-scope.ytd-masthead yt-icon-button:not(.ytd-notification-topbar-button-renderer):first-child{
+  display: none;
+}
+
+
+#action-companion-click-target, .ytp-ad-module {
+  display: none;
+}
+
+
+/* UI components we don't want */
+yt-related-chip-cloud-renderer, 
+.super-title.ytd-video-primary-info-renderer, 
+ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer,
+.videowall-endscreen,
+.ytp-autonav-toggle-button-container {
+  display: none;
+}
+
+
+YTD-RICH-ITEM-RENDERER.ytd-rich-grid-renderer {
+  opacity: 0;
+  transform: scale(.8);
+  transition: opacity .3s, transform .3s;
+}
+
+YTD-RICH-ITEM-RENDERER.ytd-rich-grid-renderer.approvedVideo {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+

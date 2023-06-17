@@ -1,0 +1,55 @@
+
+
+.YTWrapper.overlayPage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, .8);
+  backdrop-filter: blur(50px);
+
+
+  z-index: 100000;
+  transition: opacity .3s;
+}
+
+.YTWrapper.overlayPage.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
+.YTWrapper.overlayPage.loadingPage .loadingIcon {
+  position: absolute;
+  left: 50vw;
+  top: 50vh;
+  opacity: .6;
+}
+
+
+
+
+
+.loadingIcon {
+  width: 70px;
+  height: 70px;
+  
+  border: 5px solid #fff;
+  border-radius: 100%;
+  border-bottom-color: transparent;
+  
+  transform: translate(-50%, -50%) rotateZ(0);
+
+  animation: spinLoadingIcon 1s infinite;
+}
+
+@keyframes spinLoadingIcon {
+  0% {
+    transform: translate(-50%, -50%) rotateZ(0);
+  }
+  0% {
+    transform: translate(-50%, -50%) rotateZ(360deg);
+  }
+}

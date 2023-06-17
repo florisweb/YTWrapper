@@ -13,3 +13,10 @@ function newId() {
 function $(_string) {
   return document.querySelectorAll(_string);
 }
+
+
+function createElement(_tag, _class = '') {
+  let el = document.createElement(_tag);
+  el.className = _class;
+  return el;
+}

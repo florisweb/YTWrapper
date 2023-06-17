@@ -18,7 +18,6 @@ const fs = require('fs');
 		\n\n //=== CSS === \n\n
 		let cssImporter = document.createElement('style');
 		cssImporter.innerHTML = \`` + css + `\`;
-		cssImporter.setAttribute('id', 'testId');
 		console.warn('Importing CSS');
 		window.c = cssImporter;
 	`;
@@ -27,11 +26,17 @@ const fs = require('fs');
 
 	preloadScript += `
 		\n\n\ // === SETUP === \n\n
-		wait(100).then(() => 
-		{
+
+		let domLoaded = false;
+		document.addEventListener('load', function(e) {
+			if (!document.body) return;
+			if (domLoaded) return;
+			domLoaded = true;
+			
+			console.warn('=== Actually loaded ===');
 			document.body.append(cssImporter);
 			YTWrapper.setup();
-		});
+		}, true);
 	`;
 
 	fs.writeFile('../dist/preload.js', preloadScript, err => {
