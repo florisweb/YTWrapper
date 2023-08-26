@@ -36,9 +36,15 @@ yt-related-chip-cloud-renderer,
 .super-title.ytd-video-primary-info-renderer, 
 ytd-metadata-row-container-renderer.ytd-video-secondary-info-renderer,
 .videowall-endscreen,
-.ytp-autonav-toggle-button-container {
+.ytp-autonav-toggle-button-container,
+#sponsor-button,
+#flexible-item-buttons,
+#voice-search-button,
+#footer,
+a[href="/upload"] {
   display: none;
 }
+
 
 
 YTD-RICH-ITEM-RENDERER.ytd-rich-grid-renderer {
@@ -52,5 +58,21 @@ YTD-RICH-ITEM-RENDERER.ytd-rich-grid-renderer.approvedVideo {
   transform: scale(1);
 }
 
+
+/*ANTI ADS*/
+ytd-engagement-panel-section-list-renderer,
+#player-ads {
+  border: 1px solid red;
+}
+
+
+
+/*ANTI SHORTS*/
+
+body:not(.showShorts) ytd-reel-shelf-renderer,
+body:not(.showShorts) ytd-rich-section-renderer {
+  border: 1px solid blue;
+  display: none;
+}
 
 

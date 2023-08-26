@@ -20,3 +20,7 @@ function createElement(_tag, _class = '') {
   el.className = _class;
   return el;
 }
+
+function wait(_ms) {
+  return new Promise((resolve) => setTimeout(resolve, _ms));
+}

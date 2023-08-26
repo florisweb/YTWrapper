@@ -7,14 +7,24 @@ const YTWrapper = new class {
 	loadingPage;
 	constructor() {
 		this.loadingPage = new LoadingPage();
+		this.adBlock 	= new YTWrapper_AdBlock();
 
 	}
 
 	setup() {
 		this.loadingPage.setup();
-
-		checkChange();
 		this.onPageChange();
+		this.adBlock.setup();
+
+
+		let lastLoc = '';
+		multipleWatcher(() => lastLoc !== window.location.href,
+			() => {
+				lastLoc = window.location.href;
+				YTWrapper.onPageChange();
+				console.warn('change 1');
+			}
+		);
 	}
 
 
@@ -24,16 +34,3 @@ const YTWrapper = new class {
 	}
 } 
 
-
-
-
-let lastLoc = '';
-function checkChange() {
-	if (lastLoc != window.location.href)
-	{
-		lastLoc = window.location.href;
-		YTWrapper.onPageChange();
-		console.warn('change');
-	}
-	setTimeout(checkChange, 50);
-}
